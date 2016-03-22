@@ -38,7 +38,8 @@ module.exports.routes = {
 
     'get /settings': 'SettingsController.index',
 
-    'get /photos/thumbnails': 'PhotoController.thumbnails',
+    'get /photos/list': 'PhotoController.list',
+    'get /photos/thumbnails/:name': 'PhotoController.thumbnails',
     'get /photos/preview': 'PhotoController.preview',
 
     'post share/email': 'ShareController.email',

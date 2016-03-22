@@ -26,7 +26,7 @@
   "scripts": {
     "debug": "node debug app.js",
     "start": "node app.js",
-    "test" : "mocha test/**/*.test.js"
+    "test": "mocha test/**/*.test.js"
   },
   "main": "app.js",
   "repository": {
@@ -37,6 +37,7 @@
   "license": "",
   "devDependencies": {
     "assert": "^1.3.0",
+    "lodash": "^4.6.1",
     "socket.io-client": "^1.4.5"
   }
 }
