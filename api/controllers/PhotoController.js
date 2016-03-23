@@ -11,6 +11,7 @@ var _ = require('lodash');
 
 module.exports = {
 
+    // api../photos/list?id=N&skip=X&limit=Y
     list: function(req, res) {
         console.log('Photos:list');
 
@@ -34,8 +35,10 @@ module.exports = {
         res.json(thumbs);
     },
 
-    thumbnails: function(req, res) {
-        console.log('Photos:thumbnails');
+
+    // api../photos/thumbnail/:name
+    thumbnail: function(req, res) {
+        console.log('Photos:thumbnail');
 
         var fileName = req.params.name;
         if (!fileName) {

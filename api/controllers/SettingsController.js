@@ -6,8 +6,12 @@
  */
 
 module.exports = {
+
+    // api../settings
 	index: function(req, res) {
         console.log('Settings:index');
+
+        res.json({firstSet: 'Hello', secondSet: 'world!'});
     }
 };
 
