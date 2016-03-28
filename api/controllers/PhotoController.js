@@ -15,14 +15,17 @@ module.exports = {
     list: function(req, res) {
         console.log('Photos:list');
 
-        var thumbsPath = serverConf.photosDir + serverConf.thumbnailsDir;
+        var thumbsPath = '.' + serverConf.photosDir + serverConf.thumbnailsDir;
         var thumbs = fs.readdirSync(thumbsPath);
 
         console.log(req.query);
 
-        var id = req.query.id
+        var id = req.query.id;
+        var skip = req.query.skip;
+        var limit = req.query.limit;
 
-        if(req.query) {
+
+        if(id || skip || limit) {
 
             if (req.query.skip) {
                 thumbs = _(thumbs).slice(req.query.skip);
@@ -30,8 +33,8 @@ module.exports = {
             if (req.query.limit) {
                 thumbs = _(thumbs).take(req.query.limit);
             }
+            thumbs = thumbs.value();
         }
-        thumbs = thumbs.value();
 
         thumbs = _.map(thumbs, function(t){
             return {name: t};

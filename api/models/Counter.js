@@ -19,48 +19,32 @@ module.exports = {
       }
   },
 
-    getNextSequence: function(name, callback) {
-        async.waterfall([
-            function(cb) {
-                Counter.findOne({ id: name}, function(err, counter) { cb(err, counter, cb); });
-            },
-            function(err, counter, cb) {
-                console.log(err);
-                if (!counter.seq) {
-                    Counter.create({ id: name, seq: 0}, function(err, entity){
-                        if(err) {
-                            console.log("Error during creating counter for:", name, ". Error:", err);
-                        }
-                    });
-                    callback(null, 0);
-                }
-                console.log("Seq:", counter.seq);
-                Counter.update({id: name}, {seq: counter.seq + 1}, function(err, entity){
-                    if (err) {
-                        console.log("Error during counter update! Counter:", name);
-                    }
-                });
-                callback(null, counter.seq + 1);
-            }
-        ]);
+    getNextSequence: function(name, cb) {
 
-//        Counter.findOne({ id: name}, function(err, counter){
-//            if (!counter) { //.seq && model.seq != 0
-//                Counter.create({ id: name, seq: 0}, function(err, entity){
-//                    if(err) {
-//                        console.log("Error during creating counter for:", name, ". Error:", err);
-//                    }
-//                });
-//                return 0;
-//            }
-//            console.log("Seq:", counter.seq);
-//            Counter.update({id: name}, {seq: counter.seq + 1}, function(err, entity){
-//                if (err) {
-//                    console.log("Error during counter update! Counter:", name);
-//                }
-//            });
-//            return counter.seq + 1;
-//        });
+        Counter.findOne({ id: name})
+            .then(
+            function CounterFound(counter){
+                if(!counter || (!counter.seq && counter.seq !== 0)){
+                    console.log("Create!");
+                    return Counter.create({ id: name, seq: 0});
+                } else {
+                    console.log("Update!");
+                    return Counter.update({id: name}, {seq: counter.seq + 1});
+                }
+            },
+            function CounterFindError(err) {
+                console.log("CounterFindError: ");
+                console.log(err);
+            }
+        )
+            .then(function(entity){
+                console.log(entity);
+                if (entity) {
+                    cb(null, entity);
+                } else {
+                    cb("Counter creation/update failed");
+                }
+            });
     }
 
 };

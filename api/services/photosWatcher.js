@@ -29,23 +29,15 @@ function PhotosWatcher() {
             .on('add', function (path) {
                 console.log('File', path, 'has been added');
 
-                async.waterfall([
-                    function(cb) {
-                        Counter.getNextSequence(Photo.sequenceI, cb);
-                    },
-                    function(seq, cb) {
-                        Photo.create(
-                            {
-                                id: seq,
-                                name: path
-                            }, cb)
-                    },
-                    function(err, created) {
-                        if (!err) {
-                            console.log("Created record for photo with name " + created.name)
-                        }
-                    }
-                ]);
+                var p = Counter.getNextSequence(Photo.sequenceId)
+                    .then(function(seqId) {
+                        return Photo.create({id: seqId, name: path});
+                    })
+                    .then(function(photoEntity){
+                        console.log("Created record for photo with name " + photoEntity.name);
+                    });
+
+
 
 //                Photo.create(
 //                    {
