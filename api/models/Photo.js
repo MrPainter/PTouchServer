@@ -5,6 +5,8 @@
  * @docs        :: http://sailsjs.org/documentation/concepts/models-and-orm/models
  */
 
+var moment = require('moment');
+
 module.exports = {
 
   attributes: {
@@ -15,6 +17,10 @@ module.exports = {
       },
       name: {
           type: 'string'
+      },
+      createdAt: {
+          type: 'datetime',
+          defaultsTo: new Date().toISOString()//moment.format('')
       }
 
   }

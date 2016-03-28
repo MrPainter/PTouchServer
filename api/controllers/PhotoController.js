@@ -31,8 +31,14 @@ module.exports = {
                 thumbs = _(thumbs).take(req.query.limit);
             }
         }
+        thumbs = thumbs.value();
 
-        res.json(thumbs);
+        thumbs = _.map(thumbs, function(t){
+            return {name: t};
+        });
+        console.log(thumbs);
+
+        res.json({photos: thumbs});
     },
 
 

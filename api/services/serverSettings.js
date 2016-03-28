@@ -4,7 +4,7 @@
 
 
 module.exports = {
-    photosDir: './photos',
+    photosDir: '/photos',
     originalDir: this.photosDir + '/originals',
     thumbnailsDir: '/thumbnails',
     previewDir: '/previews'

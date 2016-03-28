@@ -11,7 +11,7 @@ module.exports = {
 	index: function(req, res) {
         console.log('Settings:index');
 
-        res.json({firstSet: 'Hello', secondSet: 'world!'});
+        res.json({id: '321', photosSelectable: '5'});
     }
 };
 
