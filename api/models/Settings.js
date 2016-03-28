@@ -14,7 +14,7 @@ module.exports = {
             unique: true
         },
         photos_selectable: {
-            type: 'number',
+            type: 'integer',
             defaultsTo: 3
         }
 

@@ -5,13 +5,11 @@
  * @docs        :: http://sailsjs.org/documentation/concepts/models-and-orm/models
  */
 
-var moment = require('moment');
-
 module.exports = {
 
   attributes: {
       id: {
-          type: 'number',
+          type: 'integer',
           unique: true,
           required: true
       },
@@ -22,7 +20,9 @@ module.exports = {
           type: 'datetime',
           defaultsTo: new Date().toISOString()//moment.format('')
       }
+  },
 
-  }
+  sequenceId: 'photo'
+
 };
 
