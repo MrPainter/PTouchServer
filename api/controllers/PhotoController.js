@@ -16,32 +16,45 @@ module.exports = {
         console.log('Photos:list');
 
         var thumbsPath = '.' + serverConf.photosDir + serverConf.thumbnailsDir;
-        var thumbs = fs.readdirSync(thumbsPath);
+        //var thumbs = fs.readdirSync(thumbsPath);
 
-        console.log(req.query);
+        //console.log(req.query);
 
         var id = req.query.id;
         var skip = req.query.skip;
         var limit = req.query.limit;
 
 
+        var dbQuery = null;
         if(id || skip || limit) {
+            dbQuery = {};
+            if (id) {
+                dbQuery.where = { id : { '>' : id } };
+            }
+            if(skip) {
+                dbQuery.skip = skip;
+            }
+            if(limit) {
+                dbQuery.limit = limit;
+            }
 
-            if (req.query.skip) {
-                thumbs = _(thumbs).slice(req.query.skip);
-            }
-            if (req.query.limit) {
-                thumbs = _(thumbs).take(req.query.limit);
-            }
-            thumbs = thumbs.value();
+//            if (req.query.skip) {
+//                thumbs = _(thumbs).slice(req.query.skip);
+//            }
+//            if (req.query.limit) {
+//                thumbs = _(thumbs).take(req.query.limit);
+//            }
+//            thumbs = thumbs.value();
         }
 
-        thumbs = _.map(thumbs, function(t){
-            return {name: t};
-        });
-        console.log(thumbs);
-
-        res.json({photos: thumbs});
+        Photo.find(dbQuery)
+            .then(function(photos){
+                res.json(photos);
+            }).
+            catch(function(err){
+                console.log("Error during photos request with query:", dbQuery);
+                console.log("Error:", err);
+            });
     },
 
 

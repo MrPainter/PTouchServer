@@ -3,9 +3,8 @@
  */
 
 var chokidar = require('chokidar');
-var ServerSettings = require('./serverSettings');
-
-//var Photo = require('../models/Photo');
+var ServerSettings = require('./serverSettings'),
+    path = require('path');
 
 function PhotosWatcher() {
 
@@ -26,28 +25,29 @@ function PhotosWatcher() {
         var watcher = chokidar.watch(process.cwd() + this.watchDir, watcherOptions);
 
         watcher
-            .on('add', function (path) {
-                console.log('File', path, 'has been added');
+            .on('add', function (filePath) {
+                console.log('File', filePath, 'has been added');
+                var fileName = path.basename(filePath);
 
                 var p = Counter.getNextSequence(Photo.sequenceId)
-                    .then(function(seqId) {
-                        return Photo.create({id: seqId, name: path});
+                    .then(function CreatePhotoRecord(seqId) {
+                        return Photo.create({id: seqId, name: fileName});
                     }, function(err) {
                         console.log("Error to obtain next sequence Id");
                     })
-                    .then(function(photoEntity){
-                        console.log("Created record for photo with name " + photoEntity.name);
-                    })
-                    //TODO: Process thumbnails
-                    .catch(function(err) {
+                    .catch(function PhotoRecordFailed(err) {
                         console.log("Photo record creation failed");
-                    });
+                    })
+                    .then(function ResizePhoto(photoEntity){
+                        console.log("Created record for photo with name " + photoEntity.name);
+                        //TODO: Process thumbnails
+                    })
             })
-            .on('change', function (path) {
-                console.log('File', path, 'has been changed');
+            .on('change', function (filePath) {
+                console.log('File', filePath, 'has been changed');
             })
-            .on('unlink', function (path) {
-                console.log('File', path, 'has been removed');
+            .on('unlink', function (filePath) {
+                console.log('File', filePath, 'has been removed');
             })
             .on('error', function (error) {
                 console.error('Error happened', error);
