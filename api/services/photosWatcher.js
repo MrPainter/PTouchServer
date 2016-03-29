@@ -32,23 +32,16 @@ function PhotosWatcher() {
                 var p = Counter.getNextSequence(Photo.sequenceId)
                     .then(function(seqId) {
                         return Photo.create({id: seqId, name: path});
+                    }, function(err) {
+                        console.log("Error to obtain next sequence Id");
                     })
                     .then(function(photoEntity){
                         console.log("Created record for photo with name " + photoEntity.name);
+                    })
+                    //TODO: Process thumbnails
+                    .catch(function(err) {
+                        console.log("Photo record creation failed");
                     });
-
-
-
-//                Photo.create(
-//                    {
-//                        id: Counter.getNextSequence(Photo.sequenceId),
-//                        name: path
-//                    },
-//                    function(err, created) {
-//                        if (!err) {
-//                            console.log("Created record for photo with name " + created.name)
-//                        }
-//                });
             })
             .on('change', function (path) {
                 console.log('File', path, 'has been changed');

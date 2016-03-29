@@ -6,6 +6,7 @@
  */
 
 var async = require('async');
+//var Promise = require('bluebird');
 
 module.exports = {
 
@@ -15,35 +16,48 @@ module.exports = {
       },
       seq: {
           type: 'integer',
-          defaultsTo: 0
+          defaultsTo: 1
       }
   },
 
-    getNextSequence: function(name, cb) {
+    getNextSequence: function(name) {
 
-        Counter.findOne({ id: name})
-            .then(
-            function CounterFound(counter){
+        var initialSeq = 1;
+
+        return Counter.findOne({ id: name})
+            .then(function CounterFound(counter){
                 if(!counter || (!counter.seq && counter.seq !== 0)){
-                    console.log("Create!");
-                    return Counter.create({ id: name, seq: 0});
+                    return Counter.create({ id: name, seq: initialSeq});
                 } else {
-                    console.log("Update!");
                     return Counter.update({id: name}, {seq: counter.seq + 1});
                 }
             },
             function CounterFindError(err) {
-                console.log("CounterFindError: ");
-                console.log(err);
+                console.log("Counter [", name, "] error:", err);
+                return new Promise(function(resolve, reject) {
+                    reject(err);
+                });
             }
         )
             .then(function(entity){
-                console.log(entity);
-                if (entity) {
-                    cb(null, entity);
-                } else {
-                    cb("Counter creation/update failed");
-                }
+                return new Promise(function(resolve, reject){
+                    if (entity) {
+                        //update operation
+                        if(Array.isArray(entity)) {
+                            if (entity.length > 0) {
+                                resolve(entity[0].seq);
+                            } else {
+                                reject("Counter update failed!");
+                            }
+                        //create operation
+                        } else {
+                            resolve(entity.seq);
+                        }
+                    }
+                    else {
+                        reject("Counter creation/update failed");
+                    }
+                });
             });
     }
 
