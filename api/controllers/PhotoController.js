@@ -15,10 +15,10 @@ module.exports = {
     list: function(req, res) {
         console.log('Photos:list');
 
-        var thumbsPath = '.' + serverConf.photosDir + serverConf.thumbnailsDir;
-        //var thumbs = fs.readdirSync(thumbsPath);
+//        var thumbsPath = '.' + serverConf.photosDir + serverConf.thumbnailsDir;
+//        var thumbs = fs.readdirSync(thumbsPath);
 
-        //console.log(req.query);
+//        console.log(req.query);
 
         var id = req.query.id;
         var skip = req.query.skip;
@@ -67,7 +67,7 @@ module.exports = {
             return res.json({error: "You have to specify filename!"});
         }
 
-        var thumbsPath = serverConf.photosDir + serverConf.thumbnailsDir;
+        var thumbsPath = serverConf.thumbnailsDir;
         var thumbs = fs.readdirSync(thumbsPath);
 
         thumbs = thumbs.filter(function(thumb) {
@@ -76,8 +76,6 @@ module.exports = {
 
         var firstThumb = thumbs[0];
         var pathToThumb = thumbsPath + '/' + firstThumb;
-
-        //TODO: Make image response
 
         var img = fs.readFileSync(pathToThumb);
         res.writeHead(200, {'Content-Type': 'image/jpeg' });
