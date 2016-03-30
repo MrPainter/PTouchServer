@@ -16,11 +16,12 @@ module.exports = {
       },
       name: {
           type: 'string'
-      },
-      createdAt: {
-          type: 'datetime',
-          defaultsTo: new Date().toISOString()//moment.format('')
       }
+//      ,
+//      createdAt: {
+//          type: 'datetime',
+//          defaultsTo: new Date().toISOString()//moment.format('')
+//      }
   },
 
   sequenceId: 'photo',
