@@ -8,10 +8,11 @@
 module.exports = {
 
   attributes: {
-      id: {
+      uid: {
           type: 'integer',
           unique: true,
-          required: true
+          required: true,
+          defaultsTo:0
       },
       name: {
           type: 'string'
@@ -22,7 +23,20 @@ module.exports = {
       }
   },
 
-  sequenceId: 'photo'
+  sequenceId: 'photo',
+
+    beforeCreate : function (values, cb) {
+
+        // add seq number, use
+        Counter.next("photo", function(err, num) {
+
+            if (err) return cb(err);
+
+            values.uid = num;
+
+            cb();
+        });
+    }
 
 };
 

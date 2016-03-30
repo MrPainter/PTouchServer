@@ -4,6 +4,7 @@
 
 var chokidar = require('chokidar');
 var ServerSettings = require('./serverSettings'),
+    ImageProcessor = require('./imageProcessor');
     Jimp = require('jimp'),
     path = require('path');
 
@@ -33,29 +34,16 @@ function PhotosWatcher() {
                 console.log('File', filePath, 'has been added');
                 var fileName = path.basename(filePath);
 
-                Counter.getNextSequence(Photo.sequenceId)
-                    .then(function CreatePhotoRecord(seqId) {
-                        return Photo.create({id: seqId, name: fileName});
-                    }, function(err) {
-                        console.log("Error to obtain next sequence Id");
-                    })
-                    .catch(function PhotoRecordFailed(err) {
-                        console.log("Photo record creation failed");
-                    })
-
+                    Photo.create({name: fileName})
                     //Photo processing
-                    .then(function LoadPhotoToProcess(photoEntity){
-                        console.log("Created record for photo with name " + photoEntity.name);
-                        return Jimp.read(filePath);
+                    .then(function(photoEntity){
+                        return ImageProcessor.prepareResizedImages(filePath);
                     })
-                    .then(function ResizePhoto(photo){
-                        return photo.resize(250, Jimp.AUTO).write(self.thumbnailsDir + fileName);
+                    .then(function(resizedImagesInfo) {
+                        console.log("Images resized:", resizedImagesInfo);
                     })
-                    .then(function ResizedResult(imageData){
-                        console.log("Thumbnail created for file:", fileName);
-                    })
-                    .catch(function PhotoProcessingFailed(err){
-                        console.log("Photo processing failed for", fileName,"photo:", err);
+                    .catch(function Fail(err) {
+                        console.log("Incoming photo processing failed:", err);
                     });
             })
             .on('change', function (filePath) {
@@ -73,6 +61,10 @@ function PhotosWatcher() {
     console.log('PhotosWatcher service initialized!');
 
     console.log('Watched paths: ', watchedPaths);
+
+    function resizeImage(width, height) {
+
+    }
 };
 
 module.exports = new PhotosWatcher();
