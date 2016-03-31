@@ -25,7 +25,7 @@ module.exports = {
         if(id || skip || limit) {
             dbQuery = {};
             if (id) {
-                dbQuery.where = { id : { '>' : id } };
+                dbQuery.where = { uid : { '>' : id } };
             }
             if(skip) {
                 dbQuery.skip = skip;
@@ -37,7 +37,7 @@ module.exports = {
 
         Photo.find(dbQuery)
             .then(function(photos){
-                res.json(photos);
+                res.json({photos: photos});
             }).
             catch(function(err){
                 console.log("Error during photos request with query:", dbQuery);
