@@ -42,8 +42,11 @@ var ImageProcessor = {
                         })
                         .then(function ResizePhoto(photo){
                             var pathToSave = resizeResults[resizeResults.length-1].path;
-                            console.log("Resizing image and writing to", pathToSave);
-                            var suitableImgSize = imageSize.landscape;  //TODO: Define photo orientation
+
+                            var isLandscape = photo.bitmap.width >= photo.bitmap.height;
+                            console.log("Resizing", isLandscape ? "landscape": "portrait","image and writing to", pathToSave);
+
+                            var suitableImgSize = isLandscape ? imageSize.landscape : imageSize.portrait;
                             return photo.resize(suitableImgSize.width, suitableImgSize.height).write(pathToSave);
                         })
                         .then(function ResizedResult(imageData){
@@ -81,7 +84,7 @@ var ImageProcessor = {
             },
             portrait: {
                 width: Jimp.AUTO,
-                height: 250
+                height: 500
             }
         }
     ]

@@ -4,6 +4,8 @@
 
 var fs = require('fs');
 
+//CAN'T LOG ANYTHING !
+
 var fsHelper = {
     ensureDirectoryExists: function (path, mask) {
         if (!mask) { // allow the `mask` parameter to be optional
@@ -23,6 +25,21 @@ var fsHelper = {
             });
         });
 
+    },
+
+    ensureDirectoryExistsSync: function (path, mask) {
+        if (!mask) { // allow the `mask` parameter to be optional
+            mask = 0777;
+        }
+
+        fs.mkdir(path, mask, function(err) {
+            if (err) {
+                if (err.code == 'EEXIST') return; // ignore the error if the folder already exists
+                else console.log("Error during ensure directory:", err); // something else went wrong
+            } else { // successfully created folder
+                console.log("Directory", path, "successfully created!");
+            }
+        });
     },
 
     directoryExists: function (directory) {
