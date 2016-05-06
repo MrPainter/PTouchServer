@@ -41,6 +41,7 @@ module.exports = {
             }).
             catch(function(err){
                 sails.log.error("Error during photos request with query: [", dbQuery, "]. Error: ", err);
+                res.json({error: "Error occured during searching over photos entities!"});
             });
     },
 

@@ -6,7 +6,8 @@
  */
 
  var printService = require('../services/printService'),
-     serverConf = require('../services/serverSettings');
+     serverConf = require('../services/serverSettings'),
+     fsHelper = require('../services/fsHelper');
 
 module.exports = {
 	
@@ -17,14 +18,20 @@ module.exports = {
         var photoName = req.params.photoName;
         var filePath = serverConf.photosDir + photoName;
 
-        printService.printFile(filePath)
-            .then(function (jobId) {
+        fsHelper.directoryExists(filePath)
+            .then(function(isExists){
+                if (isExists) {
+                    return printService.printFile(filePath);
+                }
+                return Promise.reject("File with path [" + filePath + "] does not exist!");
+            })        
+            .then(function () {
                 sails.log.info('File [%s] printed successfully', filePath);
                 return res.json({status: 200});
             })
             .catch(function (err) {
                 sails.log.error('There is an error occur during printing:', err);
-                return res.json({error: 'Printing failed!'});
+                return res.jsonError('Printing failed! Error: ' + err);
             });
     }
 
