@@ -44,7 +44,9 @@ module.exports.routes = {
     'get /photos/:size/:photoName': 'PhotoController.resized',
 
     'post share/email': 'ShareController.email',
-    'get share/qr': 'ShareController.qr'
+    'get share/qr': 'ShareController.qr',
+
+    'get /print/:photoName': 'PrintController.index'
 
   /***************************************************************************
   *                                                                          *
