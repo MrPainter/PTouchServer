@@ -43,24 +43,24 @@ function PhotosWatcher() {
                         console.log("Images resized:", resizedImagesInfo);
                     })
                     .catch(function Fail(err) {
-                        console.log("Incoming photo processing failed:", err);
+                        sails.log.error("Incoming photo processing failed:", err);
                     });
             })
             .on('change', function (filePath) {
-                console.log('File', filePath, 'has been changed');
+                sails.log.info('File', filePath, 'has been changed');
             })
             .on('unlink', function (filePath) {
-                console.log('File', filePath, 'has been removed');
+                sails.log.info('File', filePath, 'has been removed');
             })
             .on('error', function (error) {
-                console.error('Error happened', error);
+                sails.log.error('Error happened', error);
             });
 
     var watchedPaths = watcher.getWatched();
 
-    console.log('PhotosWatcher service initialized!');
+    sails.log.info('PhotosWatcher service initialized!');
 
-    console.log('Watched paths: ', watchedPaths);
+    sails.log.info('Watched paths: ', watchedPaths);
 
     function resizeImage(width, height) {
 

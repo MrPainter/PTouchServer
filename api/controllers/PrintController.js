@@ -17,16 +17,13 @@ module.exports = {
         var photoName = req.params.photoName;
         var filePath = serverConf.photosDir + photoName;
 
-        sails.log.info('File path:', filePath);
-
         printService.printFile(filePath)
             .then(function (jobId) {
-                console.log('Printed successfully');
                 sails.log.info('File [%s] printed successfully', filePath);
                 return res.json({status: 200});
             })
             .catch(function (err) {
-                console.log('There is an error occur during printing:', err);
+                sails.log.error('There is an error occur during printing:', err);
                 return res.json({error: 'Printing failed!'});
             });
     }

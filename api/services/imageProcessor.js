@@ -31,7 +31,7 @@ var ImageProcessor = {
                             return new Promise(function(resolve){resolve();});
                         })
                         .catch(function(err){
-                            console.log("Ensure existence failed:", err);
+                            sails.log.error("Ensure dir existence failed:", err);
                             resolve(resizeResults);
                         })
 
@@ -54,7 +54,7 @@ var ImageProcessor = {
                             resolve(resizeResults);
                         })
                         .catch(function PhotoProcessingFailed(err){
-                            console.log("Photo processing failed for", fileName,"photo:", err);
+                            sails.log.error("Photo processing failed for [", fileName,"] photo:", err);
                             resolve(resizeResults);
                         });
                 });

@@ -19,7 +19,7 @@ var fsHelper = {
                     if (err.code == 'EEXIST') resolve(resolvablePath); // ignore the error if the folder already exists
                     else reject(err); // something else went wrong
                 } else { // successfully created folder
-                    console.log("Directory", path, "successfully created!");
+                    sails.log.info("Directory", path, "successfully created!");
                     resolve(resolvablePath);
                 }
             });
@@ -37,7 +37,7 @@ var fsHelper = {
                 if (err.code == 'EEXIST') return; // ignore the error if the folder already exists
                 else console.log("Error during ensure directory:", err); // something else went wrong
             } else { // successfully created folder
-                console.log("Directory", path, "successfully created!");
+                sails.log.info("Directory", path, "successfully created!");
             }
         });
     },

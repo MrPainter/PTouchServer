@@ -40,8 +40,7 @@ module.exports = {
                 res.json({photos: photos});
             }).
             catch(function(err){
-                console.log("Error during photos request with query:", dbQuery);
-                console.log("Error:", err);
+                sails.log.error("Error during photos request with query: [", dbQuery, "]. Error: ", err);
             });
     },
 
@@ -105,7 +104,7 @@ module.exports = {
                 }
             })
             .catch(function(err){
-                console.log("Err during dir checking:", err);
+                sails.log.error("Error during dir checking:", err);
                 res.json({error: "Server error for specified size!"});
             });
     }
