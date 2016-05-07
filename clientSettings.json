@@ -1,0 +1,97 @@
+{
+    "guid": "8a9t-l65q",
+    "createdAt": "1451619000",
+    "items": [
+              
+              {
+              "guid": "2222-5375",
+              "name": "common",
+              "title": "Common",
+              "type": "section",
+              "items": [
+                        {
+                            "guid": "6388-4107",
+                            "name": "settingsPass",
+                            "title": "Settings password",
+                            "type": "password",
+                            "items": null,
+                            "value": "8888",
+                            "valueOptions": [],
+                            "parameters": {                        
+                                "keyboard": "numbers"
+                            }
+                        }
+                    ]
+              },
+              
+            {
+            "guid": "1213-5375",
+            "name": "server",
+            "title": "Server",
+            "type": "section",
+            "items": [
+                    {
+                        "guid": "6341-4107",
+                        "name": "serverAddress",
+                        "title": "Server address",
+                        "type": "url",
+                        "items": null,
+                        "value": "http://192.168.1.1:3000",
+                        "valueOptions": [],
+                        "parameters": {}
+                    }
+                ]
+            },
+              
+            {
+            "guid": "oO-Oo",
+            "name": "assets",
+            "title": "Assets",
+            "type": "section",
+            "items": [
+                  {
+                      "guid": "sample-guid",
+                      "name": "appAssets",
+                      "title": "App assets updated",
+                      "type": "datetime",
+                      "items": null,
+                      "value": "1451690000",
+                      "valueOptions": [],
+                      "parameters": {
+                                        "readonly":"true"
+                                    }
+                      
+                  }
+              ]
+            },
+              
+            {
+            "guid": "6341-q107",
+            "name": "event",
+            "title": "Event",
+            "type": "section",
+            "items": [
+                    {
+                        "guid": "6341-41d7",
+                        "name": "eventName",
+                        "title": "Event name",
+                        "type": "text",
+                        "items": null,
+                        "value": "Tweedle",
+                        "valueOptions": [],
+                        "parameters": {}
+                    },
+                    {
+                        "guid": "6341-41r7",
+                        "name": "photosToSelect",
+                        "title": "Photos to select",
+                        "type": "select",
+                        "items": null,
+                        "value": "3",
+                        "valueOptions": ["1", "2", "3", "5"],
+                        "parameters": {}
+                    }
+                ]
+            }
+        ]
+}

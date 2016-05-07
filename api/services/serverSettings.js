@@ -19,7 +19,9 @@ var settings = {
     thumbnailsDir: photosDir + 'thumbnails/',
     previewDir: '/previews/'
 
+    previewDir: '/previews/',
 
+    bundlesDir: './bundles/'
 };
 
 module.exports = settings;

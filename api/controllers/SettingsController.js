@@ -5,13 +5,18 @@
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
 
+var fs = require('fs');
+
 module.exports = {
 
     // api../settings
 	index: function(req, res) {
         console.log('Settings:index');
 
-        res.json({id: '321', photosSelectable: '5'});
+        var fileContent = fs.readFileSync('clientSettings.json', 'utf8');
+        var jsonSettings = JSON.parse(fileContent);       
+
+        res.json(jsonSettings);
     }
 };
 

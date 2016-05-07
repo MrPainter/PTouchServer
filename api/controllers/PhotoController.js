@@ -15,11 +15,10 @@ module.exports = {
     // api../photos/list?id=N&skip=X&limit=Y
     list: function(req, res) {
         console.log('Photos:list');
-
+        
         var id = req.query.id;
         var skip = req.query.skip;
         var limit = req.query.limit;
-
 
         var dbQuery = null;
         if(id || skip || limit) {
@@ -46,7 +45,7 @@ module.exports = {
     },
 
 
-    // api../photos/thumbnails/:name
+    // api../photos/thumbnails/:photoName
     thumbnails: function(req, res) {
         console.log('Photos:thumbnail');
 
@@ -55,7 +54,7 @@ module.exports = {
         return this.resized(req, res);
     },
 
-    // api../photos/previews/:name
+    // api../photos/previews/:photoName
     previews: function(req, res) {
         console.log('Photos:preview');
 
@@ -108,6 +107,28 @@ module.exports = {
                 sails.log.error("Error during dir checking:", err);
                 res.json({error: "Server error for specified size!"});
             });
+    },
+
+    //api../photos/print
+    print: function(req, res) {
+        console.log('Photos:print');
+
+        var body = req.body;        
+        if (!body || !body.photos) {
+            res.json({error: "Post parameter photos was not found!"});
+            return;
+        }
+
+        var photos = body.photos;        
+        if (photos.length == 0) {
+            res.json({error: "There are no photos specified for print!"});
+            return;
+        }
+
+        console.log(photos);
+        //TODO: Print (using print service)
+
+        res.json({success: true});
     }
 };
 

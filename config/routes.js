@@ -38,10 +38,14 @@ module.exports.routes = {
 
     'get /settings': 'SettingsController.index',
 
+    'get /bundle/assets/:guid': 'BundleController.index',
+
     'get /photos/list': 'PhotoController.list',
     'get /photos/thumbnails/:photoName': 'PhotoController.thumbnails',
     'get /photos/previews/:photoName': 'PhotoController.previews',
     'get /photos/:size/:photoName': 'PhotoController.resized',
+
+    'post /photos/print': 'PhotoController.print',
 
     'post share/email': 'ShareController.email',
     'get share/qr': 'ShareController.qr',
