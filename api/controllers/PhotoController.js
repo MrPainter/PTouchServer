@@ -125,10 +125,45 @@ module.exports = {
             return;
         }
 
+        if(!Array.isArray(photos)) {
+            var photo = photos;
+            photos = [];
+            photos.push(photo);
+        }
+
         console.log(photos);
         //TODO: Print (using print service)
 
-        res.json({success: true});
+
+        var promises = [];
+        photos.forEach(function (photoName) {
+            var filePath = serverConf.photosDir + photoName;
+            var printPromise = fsHelper.directoryExists(filePath)
+                .then(function(isExists){
+                    if (isExists) {
+                        return printService.printFile(filePath);
+                    }
+                    return Promise.reject("File with path [" + filePath + "] does not exist!");
+                })        
+                .then(function () {
+                    sails.log.info('File [%s] printed successfully', filePath);
+                })
+                .catch(function (err) {
+                    sails.log.error('There is an error occur during printing:', err);
+                });
+
+            promises.push(printPromise);            
+        });  
+
+        Promise.all(promises)
+            .then(function () {
+                console.log("Photos printed successfully!");
+                return res.json({success: true});
+            })
+            .catch(function (err) {
+                console.log("Printing error occured!");
+                return res.jsonError('Printing failed! Error: ' + err);
+            });        
     }
 };
 

@@ -7,7 +7,7 @@ var photosDir = './photos/';
 var settings = {
 
     printing: {
-        printerName: "PDFCreator"
+        printerName: "PDFWriter"
     },
 
     directories: {
@@ -17,7 +17,7 @@ var settings = {
     photosDir: photosDir,
     originalDir: photosDir + 'originals/',
     thumbnailsDir: photosDir + 'thumbnails/',
-    previewDir: '/previews/'
+    previewDir: '/previews/',
 
     previewDir: '/previews/',
 

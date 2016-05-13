@@ -8,27 +8,29 @@ var fs = require('fs'),
 var Printer = {
 
     printFile: function (filePath) {
+        var self = this;
         return new Promise(function(resolve, reject){
-            if( process.platform == 'win32') {
-                var printerName = serverConf.printing.printerName;           
+            var printerName = serverConf.printing.printerName;        
+            filePath = path.join(process.cwd(), path.normalize(filePath));
+            var command = ""
+            if( process.platform == 'win32') {                               
+                command = 'rundll32 c:/windows/system32/shimgvw.dll,ImageView_PrintTo /pt "'+ filePath +'" "' + printerName +'"';                
+            } else {
+                command = 'lp -d ' + printerName + ' ' + filePath;
 
-                filePath = path.join(process.cwd(), path.normalize(filePath));
-                
-                var command = 'rundll32 c:/windows/system32/shimgvw.dll,ImageView_PrintTo /pt "'+ filePath +'" "' + printerName +'"';
+                // var message = 'No printing defined for non win32';
+                // sails.log.error(message);
+                // reject(message);
+            }
 
-                exec(command, function(error, stdout, stderr){
+            exec(command, function(error, stdout, stderr){
                     if (error !== null) {
                         sails.log.error('Error during print command execution:', error);
                         reject(error);
                     }
 
                     resolve();
-                });
-            } else {
-                var message = 'No printing defined for non win32';
-                sails.log.error(message);
-                reject(message);
-            }            
+                });            
         });
     },
 
@@ -36,10 +38,13 @@ var Printer = {
     printFile2: function (filePath) {
 
         if( process.platform != 'win32') {
+            var printerName = printer.getDefaultPrinterName();
+            console.log("Printer:", printerName);
+
             return new Promise(function(resolve, reject){
                 printer.printFile({
                     fileName: filePath,
-                    printer: process.env[3],
+                    printer: printerName,
                     success: function (jobId) {
                         resolve(jobId);
                     },
@@ -56,10 +61,14 @@ var Printer = {
 
     // DOES NOT WORK [TBD]
     printData: function (data) {
+        var printerName = printer.getDefaultPrinterName();
+        console.log("Printer:", printerName);
+
         return new Promise(function(resolve, reject){
             printer.printDirect({
                 data: data,
                 type: 'RAW',
+                printer: printerName,
                 success: function (jobId) {
                     resolve(jobId);
                 },
