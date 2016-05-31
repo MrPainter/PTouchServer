@@ -20,6 +20,24 @@
                             "parameters": {                        
                                 "keyboard": "numbers"
                             }
+                        },
+                        {
+                            "guid": "6545-4107",
+                            "name": "idleTime",
+                            "title": "Idle time (sec)",
+                            "type": "select",
+                            "items": null,
+                            "value": "30",
+                            "valueOptions": ["30", "60", "180", "300"]
+                        },
+                        {
+                            "guid": "abab-81bc",
+                            "name": "settingsSyncTime",
+                            "title": "Settings sync (sec)",
+                            "type": "select",
+                            "items": null,
+                            "value": "30",
+                            "valueOptions": ["5", "30", "60", "180", "300"]
                         }
                     ]
               },
@@ -90,6 +108,22 @@
                         "value": "3",
                         "valueOptions": ["1", "2", "3", "5"],
                         "parameters": {}
+                    },
+                    {
+                        "guid": "3343-41r7",
+                        "name": "shareOptions",
+                        "title": "Share options",
+                        "type": "multipleselect",
+                        "items": null,
+                        "value": {
+                            "email" : "Email",
+                            "wechat" : "WeChat"
+                        },
+                        "valueOptions": [],
+                        "parameters": {
+                            "readonly":"true",
+                            "hidden":"true"
+                          }
                     }
                 ]
             }

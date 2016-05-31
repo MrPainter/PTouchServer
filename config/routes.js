@@ -47,10 +47,9 @@ module.exports.routes = {
 
     'post /photos/print': 'PhotoController.print',
 
-    'post share/email': 'ShareController.email',
-    'get share/qr': 'ShareController.qr',
+    'post share/:type': 'ShareController.index',
 
-    'get /print/:photoName': 'PrintController.index'
+    'post /state': 'StateController.index'
 
   /***************************************************************************
   *                                                                          *
