@@ -47,7 +47,7 @@ module.exports.routes = {
 
     'post /photos/print': 'PhotoController.print',
 
-    'post share/:type': 'ShareController.index',
+    'post /share/:type': 'ShareController.index',
 
     'post /state': 'StateController.index'
 
