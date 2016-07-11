@@ -1,3 +1,3 @@
 # LocalServerApp
 
-a [Sails](http://sailsjs.org) application
+Intermediate server application for photo tracking/processing
